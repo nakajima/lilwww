@@ -1,0 +1,1 @@
+project_name = { prompt = "Enter project name", default = "new-one", type = "string" }
