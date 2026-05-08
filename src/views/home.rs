@@ -1,9 +1,10 @@
+use crate::error::AppResult;
 use axum::response::Html;
 use maud::{DOCTYPE, html};
 use tracing::instrument;
 
 #[instrument]
-pub async fn get() -> Html<String> {
+pub async fn get() -> AppResult<Html<String>> {
     let markup = html! {
         (DOCTYPE)
         html {
@@ -16,5 +17,5 @@ pub async fn get() -> Html<String> {
         }
     };
 
-    Html(markup.into_string())
+    Ok(Html(markup.into_string()))
 }
