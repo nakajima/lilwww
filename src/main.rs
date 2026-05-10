@@ -4,6 +4,7 @@ mod views;
 use anyhow::Context;
 use axum::{Router, routing::get};
 use error::AppResult;
+use tower_http::services::ServeDir;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -11,7 +12,8 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .route("/", get(views::home::get))
-        .route("/_health", get(health));
+        .route("/_health", get(health))
+        .nest_service("/assets", ServeDir::new("assets"));
 
     let port = std::env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     let bind = format!("0.0.0.0:{}", &port);
